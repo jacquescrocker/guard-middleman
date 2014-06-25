@@ -8,7 +8,7 @@ module Guard
       super
       # init stuff here, thx!
       @options = Thor::CoreExt::HashWithIndifferentAccess.new(
-        {:run_on_start => false, :bundler => File.exist?("#{Dir.pwd}/Gemfile")}.merge(options)
+        {:notifications => true, :run_on_start => false, :bundler => File.exist?("#{Dir.pwd}/Gemfile")}.merge(options)
       )
     end
 
@@ -27,7 +27,7 @@ module Guard
     # Please override initialize method to init stuff
     def start
       if @options[:run_on_start]
-        system(build_command)
+        build
       end
       true
     end
@@ -46,12 +46,17 @@ module Guard
     # Called on Ctrl-\ signal
     # This method should be principally used for long action like running all specs/tests/...
     def run_all
-      system(build_command)
+      build
     end
 
     # Called on file(s) modifications
     def run_on_change(paths)
+      build
+    end
+
+    def build
       system(build_command)
+      ::Guard::Notifier.notify("Build Complete...", title: "Middleman")
     end
 
     private

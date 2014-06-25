@@ -15,6 +15,7 @@ Add guard definition:
 ## Options
 
 * `verbose`: verbose output, default = false
+* `notifications`: whether or not to do guard notifications when complete, default = true
 * `run_on_start`: whether or not to build middleman on start of guard, default = false
 * `clean`: erase the build directory before run, default = false
 * `no-clean`: never erase the build directory, default = false
